@@ -6,15 +6,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class Formatter {
-    private static String LOADED_PREFIX;
+    private String loadedPrefix;
 
     private final YAMLConfigurationFile formatsFile;
 
     public Formatter(YAMLConfigurationFile formatsFile) {
         this.formatsFile = formatsFile;
+        loadedPrefix = formatsFile.getConfig().contains("prefix") ? ChatColor.translateAlternateColorCodes('&', formatsFile.getConfig().getString("prefix")) : null;
     }
 
-    FormatBuilder begin(String path) {
+    public FormatBuilder begin(String path) {
         return new FormatBuilder(formatsFile.getConfig().getString(path));
     }
 
@@ -49,7 +50,7 @@ public final class Formatter {
                 if (coloredInputs) value = ChatColor.translateAlternateColorCodes('&', value);
                 s = s.replaceAll(String.format("\\{\\{%s\\}\\}", stringStringEntry.getKey()), value);
             }
-            if (prefix) return LOADED_PREFIX + s;
+            if (prefix && loadedPrefix != null) return loadedPrefix + s;
             return s;
         }
     }

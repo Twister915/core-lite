@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class CLPlugin extends JavaPlugin {
-    private Formatter formatter;
+    @Getter private Formatter formatter;
     @Getter private Gson gson = getNewGson();
 
     protected Gson getNewGson() {
