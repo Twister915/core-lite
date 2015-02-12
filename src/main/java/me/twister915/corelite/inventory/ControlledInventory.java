@@ -38,6 +38,7 @@ public abstract class ControlledInventory implements Listener {
 //    }
 
     public final void reload() {
+        buttons.clear();
         for (int i = 0; i < 36; i++) {
             ControlledInventoryButton newButtonAt = getNewButtonAt(i);
             if (newButtonAt == null) continue;
@@ -80,7 +81,7 @@ public abstract class ControlledInventory implements Listener {
     }
 
     @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
+    public final void onPlayerQuit(PlayerQuitEvent event) {
         players.remove(event.getPlayer());
     }
 
@@ -118,7 +119,7 @@ public abstract class ControlledInventory implements Listener {
 
 
     @EventHandler(priority = EventPriority.LOW)
-    public void onPlayerDrop(PlayerDropItemEvent event) {
+    public final void onPlayerDrop(PlayerDropItemEvent event) {
         Player onlinePlayer = event.getPlayer();
         if (!players.contains(onlinePlayer)) return;
         if (buttons.get(onlinePlayer.getInventory().getHeldItemSlot()) != null) {

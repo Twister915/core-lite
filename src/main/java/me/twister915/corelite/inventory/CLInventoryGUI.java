@@ -12,6 +12,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -29,22 +30,31 @@ public class CLInventoryGUI implements Listener {
     @Getter(AccessLevel.NONE) protected final Map<Integer, CLInventoryButton> inventoryButtons = new HashMap<Integer, CLInventoryButton>();
     @Setter(AccessLevel.NONE) protected Set<Integer> updatedSlots = new HashSet<Integer>();
 
+    private final CLPlugin plugin;
+    private boolean registered = false;
+
     public CLInventoryGUI(Integer size, String title, CLPlugin plugin) {
         if (size % 9 != 0) throw new IllegalArgumentException("The size of an inventory must be divisible by 9 evenly.");
         this.title = title;
         inventory = Bukkit.createInventory(null, size, title.substring(0, Math.min(32, title.length())));
-        plugin.registerListener(this);
+        this.plugin = plugin;
     }
 
     public void open(Player player) {
         if (observers.contains(player)) return;
         observers.add(player);
+        if (observers.size() == 1 && !registered) plugin.registerListener(this);
+        registered = true;
         player.openInventory(inventory);
     }
 
     public void close(Player player) {
         if (!observers.contains(player)) return;
         observers.remove(player);
+        if (observers.size() == 0 && registered) {
+            HandlerList.unregisterAll(this);
+            registered = false;
+        }
         player.closeInventory();
         onClose(player);
     }
@@ -169,13 +179,13 @@ public class CLInventoryGUI implements Listener {
 
     /* Event Handlers */
     @EventHandler(priority = EventPriority.HIGH)
-    public void onPlayerLeave(PlayerQuitEvent event) {
+    public final void onPlayerLeave(PlayerQuitEvent event) {
         Player onlinePlayer = event.getPlayer();
         if (observers.contains(onlinePlayer)) this.observers.remove(onlinePlayer);
     }
 
     @EventHandler
-    public void onInventoryClose(InventoryCloseEvent event) {
+    public final void onInventoryClose(InventoryCloseEvent event) {
         if (!(event.getPlayer() instanceof Player)) return;
         if (!event.getInventory().equals(inventory)) return;
         Player player = (Player) event.getPlayer();
@@ -184,7 +194,7 @@ public class CLInventoryGUI implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onInventoryClick(InventoryClickEvent event) {
+    public final void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player)) return;
         if (!(event.getInventory().equals(inventory))) return;
         Player player = (Player) event.getWhoClicked();
@@ -201,7 +211,7 @@ public class CLInventoryGUI implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerInventoryMove(InventoryMoveItemEvent event) {
+    public final void onPlayerInventoryMove(InventoryMoveItemEvent event) {
         if (!event.getDestination().equals(inventory)) return;
         event.setCancelled(true);
     }
