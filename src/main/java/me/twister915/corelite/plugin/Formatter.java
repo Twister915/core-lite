@@ -19,6 +19,14 @@ public final class Formatter {
         return new FormatBuilder(formatsFile.getConfig().getString(path));
     }
 
+    public boolean has(String path) {
+        return formatsFile.getConfig().contains(path);
+    }
+
+    public FormatBuilder withValue(String value) {
+        return new FormatBuilder(value);
+    }
+
     public final class FormatBuilder {
         private final String formatString;
         private final Map<String, String> modifiers = new HashMap<String, String>();
