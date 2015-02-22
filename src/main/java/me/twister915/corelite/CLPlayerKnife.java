@@ -1,8 +1,10 @@
 package me.twister915.corelite;
 
 import lombok.Data;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 @Data
 //TODO lots todo
@@ -15,6 +17,21 @@ public final class CLPlayerKnife {
 
     public CLPlayerKnife playSoundForPlayer(Sound sound) {
         player.playSound(player.getLocation(), sound, 20F, 0f);
+        return this;
+    }
+
+    public CLPlayerKnife resetPlayer() {
+        player.setHealth(player.getMaxHealth());
+        player.setFireTicks(0);
+        player.setFoodLevel(20);
+        player.resetPlayerTime();
+        player.resetPlayerWeather();
+        player.getInventory().clear();
+        player.getInventory().setArmorContents(new ItemStack[4]);
+        player.setExp(0);
+        if (player.getAllowFlight()) player.setFlying(false);
+        player.setAllowFlight(false);
+        player.setGameMode(GameMode.SURVIVAL);
         return this;
     }
 }
