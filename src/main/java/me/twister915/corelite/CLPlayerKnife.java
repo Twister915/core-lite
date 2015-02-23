@@ -21,6 +21,7 @@ public final class CLPlayerKnife {
     }
 
     public CLPlayerKnife resetPlayer() {
+        player.setMaxHealth(20);
         player.setHealth(player.getMaxHealth());
         player.setFireTicks(0);
         player.setFoodLevel(20);
