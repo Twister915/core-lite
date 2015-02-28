@@ -5,6 +5,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 
 @Data
 //TODO lots todo
@@ -33,6 +34,8 @@ public final class CLPlayerKnife {
         if (player.getAllowFlight()) player.setFlying(false);
         player.setAllowFlight(false);
         player.setGameMode(GameMode.SURVIVAL);
+        for (PotionEffect potionEffect : player.getActivePotionEffects())
+            player.removePotionEffect(potionEffect.getType());
         return this;
     }
 }

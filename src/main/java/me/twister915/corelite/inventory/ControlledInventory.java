@@ -24,7 +24,11 @@ public abstract class ControlledInventory implements Listener {
     private final Set<Player> players = new HashSet<Player>();
 
     public ControlledInventory() {
-        reload();
+        this(true);
+    }
+
+    public ControlledInventory(boolean reload) {
+        if (reload) reload();
     }
 
     protected abstract ControlledInventoryButton getNewButtonAt(Integer slot);
@@ -91,7 +95,8 @@ public abstract class ControlledInventory implements Listener {
         Player onlinePlayer = (Player) event.getWhoClicked();
         if (!players.contains(onlinePlayer)) return;
         if (buttons.keySet().contains(event.getSlot())
-                && players.contains(onlinePlayer)) {
+                && players.contains(onlinePlayer)
+                && event.getClickedInventory().equals(onlinePlayer.getInventory())) {
             event.setCancelled(true);
         }
     }
