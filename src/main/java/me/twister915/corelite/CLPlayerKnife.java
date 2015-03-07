@@ -31,6 +31,7 @@ public final class CLPlayerKnife {
         player.getInventory().clear();
         player.getInventory().setArmorContents(new ItemStack[4]);
         player.setExp(0);
+        player.setLevel(0);
         if (player.getAllowFlight()) player.setFlying(false);
         player.setAllowFlight(false);
         player.setGameMode(GameMode.SURVIVAL);
