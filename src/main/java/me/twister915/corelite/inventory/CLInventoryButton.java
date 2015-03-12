@@ -1,9 +1,6 @@
 package me.twister915.corelite.inventory;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 import me.twister915.corelite.command.EmptyHandlerException;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -16,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(doNotUseGetters = true)
 public abstract class CLInventoryButton {
     private static final Integer LORE_LINE_LENGTH = 30;
 

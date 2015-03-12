@@ -34,4 +34,12 @@ public final class Point {
     public static Point of(Entity entity) {
         return of(entity.getLocation());
     }
+
+    public Point add(double x, double y, double z) {
+        return new Point(this.x + x, this.y + y, this.z + z, pitch, yaw);
+    }
+
+    public Point subtract(double x, double y, double z) {
+        return add(-x, -y, -z);
+    }
 }

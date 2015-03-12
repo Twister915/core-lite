@@ -152,14 +152,14 @@ public class CLInventoryGUI implements Listener {
      */
     public void updateInventory() {
         for (int x = 0; x < inventory.getSize(); x++) {
-            CLInventoryButton CLInventoryButton = inventoryButtons.get(x);
-            if (CLInventoryButton == null && inventory.getItem(x) != null) {
+            CLInventoryButton inventoryButton = inventoryButtons.get(x);
+            if (inventoryButton == null && inventory.getItem(x) != null) {
                 inventory.setItem(x, null);
                 continue;
             }
-            if ((inventory.getItem(x) == null && CLInventoryButton != null) || updatedSlots.contains(x)) {
-                assert CLInventoryButton != null;
-                inventory.setItem(x, CLInventoryButton.getStack());
+            if ((inventory.getItem(x) == null && inventoryButton != null) || updatedSlots.contains(x)) {
+                assert inventoryButton != null;
+                inventory.setItem(x, inventoryButton.getStack());
             }
         }
         for (Player observer : observers) {

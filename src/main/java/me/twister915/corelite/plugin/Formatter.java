@@ -52,6 +52,7 @@ public final class Formatter {
         }
 
         public String get() {
+            if (formatString == null) return "Not found!";
             String s = ChatColor.translateAlternateColorCodes('&', formatString);
             for (Map.Entry<String, String> stringStringEntry : modifiers.entrySet()) {
                 String value = stringStringEntry.getValue();

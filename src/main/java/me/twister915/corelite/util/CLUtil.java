@@ -27,6 +27,7 @@ public final class CLUtil {
 
     public static <T> boolean arrayContains(T[] ts, T t) {
         for (T t1 : ts) {
+            if ((t1 == null || t == null) && t != t1) continue;
             if (t1 == t || t1.equals(t)) return true;
         }
         return false;
