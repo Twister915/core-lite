@@ -39,36 +39,11 @@ public abstract class CLPlugin extends JavaPlugin {
                 formatter = new Formatter(formatsFile);
             }
             else formatter = null;
-            handleDepends(getDescription().getDepend());
             onModuleEnable();
         } catch (Exception e) {
             getLogger().severe("Unable to properly enable this plugin!");
             setEnabled(false);
             e.printStackTrace();
-        }
-    }
-
-    private void handleDepends(List<String> depends) {
-        PluginManager pluginManager = getServer().getPluginManager();
-        for (Method method : getClass().getDeclaredMethods()) {
-            if (!method.isAnnotationPresent(DependencyHandler.class)) continue;
-            Parameter[] parameters = method.getParameters();
-            if (parameters.length != 1) continue;
-            Parameter parameter = parameters[0];
-            for (String depend : depends) {
-                Plugin plugin = pluginManager.getPlugin(depend);
-                if (parameter.getClass().isAssignableFrom(plugin.getClass())) {
-                    try {
-                        method.invoke(this, plugin);
-                    } catch (IllegalAccessException e) {
-                        getLogger().warning("Unable to fire dependency catch exception!");
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        getLogger().severe("Unable to fire dependency catch exception due to user error!");
-                        e.printStackTrace();
-                    }
-                }
-            }
         }
     }
 
