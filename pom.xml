@@ -8,12 +8,40 @@
     <artifactId>CoreLite</artifactId>
     <version>1.0</version>
 
+    <name>CoreLite</name>
+    <description>Core utilities for Minecraft (without the massive core architecture)</description>
+    <url>http://github.com/Twister915/core-lite</url>
+
+    <scm>
+        <url>https://github.com/Twister915/core-lite</url>
+    </scm>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
     <repositories>
+        <!-- Sorry if this is an issue, but this is truly the only way to get the spigot jar we want -->
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
         </repository>
     </repositories>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
