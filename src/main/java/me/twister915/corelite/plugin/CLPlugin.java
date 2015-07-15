@@ -15,7 +15,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.*;
 import java.util.Arrays;
-import java.util.List;
 
 public abstract class CLPlugin extends JavaPlugin {
     @Getter private Formatter formatter;
@@ -73,7 +72,7 @@ public abstract class CLPlugin extends JavaPlugin {
      */
     public final <T extends CLCommand> T registerCommand(T command) {
         //Check if we have the command registered using the same name
-        PluginCommand command1 = getCommand(command.getName(), this); //Create a command for force registration
+        PluginCommand command1 = getNewCommand(command.getName(), this); //Create a command for force registration
         command1.setExecutor(command); //Set the exectuor
         command1.setTabCompleter(command); //Tab completer
         CommandMeta annotation = command.getClass().getAnnotation(CommandMeta.class); //Get the commandMeta
@@ -99,10 +98,10 @@ public abstract class CLPlugin extends JavaPlugin {
      *
      * @return new PluginCommand instance of the requested command name
      */
-    private PluginCommand getCommand(String name, Plugin plugin) {
+    private PluginCommand getNewCommand(String name, Plugin plugin) {
         PluginCommand command = null;
         try {
-            Constructor commandConstructor = PluginCommand.class.getDeclaredConstructor(new Class[]{String.class, Plugin.class});
+            Constructor commandConstructor = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
             commandConstructor.setAccessible(true);
             command = (PluginCommand) commandConstructor.newInstance(name, plugin);
         } catch (Exception ex) {
