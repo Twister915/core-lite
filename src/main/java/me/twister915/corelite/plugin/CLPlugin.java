@@ -86,6 +86,14 @@ public abstract class CLPlugin extends JavaPlugin {
         return command;
     }
 
+    public void registerListener(Listener... listeners) {
+        for (Listener listener : listeners) registerListener(listener);
+    }
+
+    public void regsiterCommand(CLCommand... commands) {
+        for (CLCommand command : commands) registerCommand(command);
+    }
+
     /**
      * Creates a new instance of the command
      *
