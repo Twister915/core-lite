@@ -26,7 +26,7 @@ public abstract class CLCommand implements CommandExecutor, TabCompleter {
 
     @Setter(AccessLevel.PROTECTED) @Getter private CLCommand superCommand = null;
 
-    @Getter private CommandMeta meta;
+    @Getter private CommandMeta meta = getClass().isAnnotationPresent(CommandMeta.class) ? getClass().getAnnotation(CommandMeta.class) : null;
 
     /**
      * Main constructor without sub-commands.
@@ -44,7 +44,6 @@ public abstract class CLCommand implements CommandExecutor, TabCompleter {
     protected CLCommand(final String name, CLCommand... subCommands) {
         this.name = name;
         registerSubCommand(subCommands);
-        if (getClass().isAnnotationPresent(CommandMeta.class)) meta = getClass().getAnnotation(CommandMeta.class);
     }
 
     /**
