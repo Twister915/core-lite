@@ -26,6 +26,8 @@ public abstract class CLCommand implements CommandExecutor, TabCompleter {
 
     @Setter(AccessLevel.PROTECTED) @Getter private CLCommand superCommand = null;
 
+    @Getter private CommandMeta meta;
+
     /**
      * Main constructor without sub-commands.
      * @param name The name of the command.
@@ -42,6 +44,7 @@ public abstract class CLCommand implements CommandExecutor, TabCompleter {
     protected CLCommand(final String name, CLCommand... subCommands) {
         this.name = name;
         registerSubCommand(subCommands);
+        if (getClass().isAnnotationPresent(CommandMeta.class)) meta = getClass().getAnnotation(CommandMeta.class);
     }
 
     /**
@@ -90,7 +93,6 @@ public abstract class CLCommand implements CommandExecutor, TabCompleter {
         });
     }
 
-    @Override
     public final boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         //Handling commands can be done by the logic below, and all errors should be thrown using an exception.
         //If you wish to override the behavior of displaying that error to the player, it is discouraged to do that in
@@ -146,7 +148,6 @@ public abstract class CLCommand implements CommandExecutor, TabCompleter {
         return true;
     }
 
-    @Override
     public final List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         //Security for tab complete
         if (getClass().isAnnotationPresent(CommandPermission.class)) {
