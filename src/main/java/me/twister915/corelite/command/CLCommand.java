@@ -55,6 +55,10 @@ public abstract class CLCommand implements CommandExecutor, TabCompleter {
         for (CLCommand subCommand : subCommands) {
             if (subCommand.getSuperCommand() != null) throw new IllegalArgumentException("The command you attempted to register already has a supercommand.");
             this.subCommands.put(subCommand.getName(), subCommand);
+            CommandMeta meta = subCommand.getMeta();
+            if (meta != null && meta.aliases() != null)
+                for (String a : meta.aliases())
+                    this.subCommands.put(a, subCommand);
             subCommand.setSuperCommand(this);
         }
         //Add a provided help command
